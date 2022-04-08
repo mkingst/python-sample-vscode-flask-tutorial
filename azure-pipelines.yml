@@ -32,5 +32,5 @@ steps:
           azureSubscription: 'python-app'
           appType: 'webAppLinux'
           WebAppName: 'pywebs'
-          packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          Package: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
           RuntimeStack: 'PYTHON|3.9'
