@@ -10,7 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '3.9'
@@ -25,6 +24,9 @@ steps:
           archiveType: 'zip'
           archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
           replaceExistingArchive: true
+      - publish: $(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip
+        displayName: 'Upload package'
+        artifact: drop
 
       - task: AzureRmWebAppDeployment@4
         inputs:
