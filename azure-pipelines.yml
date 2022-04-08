@@ -34,3 +34,5 @@ steps:
           WebAppName: 'pywebs'
           Package: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
           RuntimeStack: 'PYTHON|3.9'
+          
+          StartupCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
