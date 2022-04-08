@@ -7,13 +7,30 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: ubuntu-lates
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.6'
+          architecture: 'x64'
+        displayName: 'Use Python version'
+
+
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: '$(Build.SourcesDirectory)'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
+          replaceExistingArchive: true
+
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'python-app'
+          appType: 'webAppLinux'
+          WebAppName: 'pywebs'
+          packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          RuntimeStack: 'PYTHON|3.9'
